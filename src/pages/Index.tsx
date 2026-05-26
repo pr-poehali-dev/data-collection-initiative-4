@@ -42,6 +42,7 @@ const Index = () => {
   const [profileTab, setProfileTab] = useState(0);
   const [calcSize, setCalcSize] = useState("standard");
   const [calcProfile, setCalcProfile] = useState("comfort");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const timerTarget = useRef(new Date(Date.now() + 3 * 3600 * 1000 + 47 * 60 * 1000));
   const countdown = useCountdown(timerTarget.current);
 
@@ -110,23 +111,22 @@ const Index = () => {
   const fmt = (n: number) => n.toString().padStart(2, "0");
 
   return (
-    <div className="min-h-screen bg-white text-slate-800 overflow-x-hidden">
+    <div className="min-h-screen bg-white text-slate-800 overflow-x-hidden pb-16 sm:pb-0">
 
       {/* TOP OFFER BANNER */}
-      <div className="bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 text-white py-2.5 px-4 text-center">
-        <div className="flex items-center justify-center gap-3 flex-wrap text-sm font-semibold">
+      <div className="bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 text-white py-2 px-4 text-center">
+        <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap text-xs sm:text-sm font-semibold leading-tight">
           <span className="flex items-center gap-1.5">
-            <Icon name="Flame" size={15} />
-            Акция мая: скидка 35% на профиль REHAU
+            <Icon name="Flame" size={13} />
+            <span className="hidden xs:inline">Акция мая: </span>скидка 35% на REHAU
           </span>
-          <span className="hidden sm:block text-orange-200">|</span>
-          <span className="flex items-center gap-2">
-            Заканчивается через:
-            <span className="inline-flex items-center gap-0.5 bg-white/25 rounded-lg px-2.5 py-0.5 font-mono font-black">
+          <span className="flex items-center gap-1.5">
+            <span className="text-orange-200 text-xs">⏱</span>
+            <span className="font-mono font-black bg-white/25 rounded px-2 py-0.5 text-xs tabular-nums">
               {fmt(countdown.h)}:{fmt(countdown.m)}:{fmt(countdown.s)}
             </span>
           </span>
-          <a href="#contact" className="bg-white text-orange-500 font-bold px-4 py-1 rounded-full text-xs hover:bg-orange-50 transition-all">
+          <a href="#contact" className="bg-white text-orange-500 font-bold px-3 py-1 rounded-full text-xs hover:bg-orange-50 transition-all whitespace-nowrap">
             Успеть →
           </a>
         </div>
@@ -134,12 +134,12 @@ const Index = () => {
 
       {/* HEADER */}
       <header className="sticky top-0 w-full bg-white/97 backdrop-blur-xl border-b border-slate-100 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-sky-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-sky-600 rounded-lg flex items-center justify-center shrink-0">
               <Icon name="Building2" size={15} className="text-white" />
             </div>
-            <span className="font-display font-black text-lg text-slate-900">ТеплоБалкон <span className="text-sky-600">СПб</span></span>
+            <span className="font-display font-black text-base sm:text-lg text-slate-900">ТеплоБалкон <span className="text-sky-600">СПб</span></span>
           </div>
           <nav className="hidden md:flex gap-7 text-sm font-medium">
             {[["#features","Преимущества"],["#profiles","Профили"],["#gallery","Работы"],["#reviews","Отзывы"],["#contact","Контакты"]].map(([h,l]) => (
@@ -151,23 +151,47 @@ const Index = () => {
               <Icon name="Phone" size={13} className="text-sky-600" />
               +7 (812) 123-45-67
             </a>
-            <a href="#contact" className="px-4 py-2 text-sm font-bold bg-sky-600 text-white rounded-full hover:bg-sky-700 transition-all shadow-sm">
+            <a href="#contact" className="hidden sm:block px-4 py-2 text-sm font-bold bg-sky-600 text-white rounded-full hover:bg-sky-700 transition-all shadow-sm">
+              Замер бесплатно
+            </a>
+            {/* Mobile: call + menu */}
+            <a href="tel:+78121234567" className="sm:hidden flex items-center justify-center w-9 h-9 bg-sky-50 rounded-full text-sky-600">
+              <Icon name="Phone" size={17} />
+            </a>
+            <button
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              className="md:hidden flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all"
+              aria-label="Меню"
+            >
+              <Icon name={mobileMenuOpen ? "X" : "Menu"} size={18} />
+            </button>
+          </div>
+        </div>
+        {/* Mobile menu dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-slate-100 bg-white px-4 pb-4 pt-3 space-y-1">
+            {[["#features","Преимущества"],["#profiles","Профили"],["#gallery","Работы"],["#reviews","Отзывы"],["#contact","Контакты"]].map(([h,l]) => (
+              <a key={h} href={h} onClick={() => setMobileMenuOpen(false)}
+                className="block py-2.5 px-3 rounded-xl text-sm font-semibold text-slate-700 hover:bg-sky-50 hover:text-sky-600 transition-all">{l}</a>
+            ))}
+            <a href="#contact" onClick={() => setMobileMenuOpen(false)}
+              className="block mt-2 py-3 px-4 bg-sky-600 text-white font-bold rounded-xl text-sm text-center hover:bg-sky-700 transition-all">
               Замер бесплатно
             </a>
           </div>
-        </div>
+        )}
       </header>
 
       {/* HERO */}
       <section id="hero" className="relative overflow-hidden">
-        <div className="grid lg:grid-cols-2 min-h-[88vh]">
-          <div className="relative flex items-center px-6 sm:px-12 py-16 bg-gradient-to-br from-sky-50 via-white to-white">
+        <div className="grid lg:grid-cols-2 min-h-[auto] lg:min-h-[88vh]">
+          <div className="relative flex items-center px-5 sm:px-8 lg:px-12 py-10 sm:py-14 lg:py-16 bg-gradient-to-br from-sky-50 via-white to-white">
             <div className={`relative z-10 max-w-xl transition-all duration-1000 ${vis["hero"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
               <div className="mb-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-200">
                 <Icon name="Tag" size={13} className="text-orange-500" />
                 <span className="text-xs font-bold text-orange-600">Скидка 35% действует до конца мая</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl xl:text-6xl font-display font-black leading-tight mb-5 text-slate-900 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-display font-black leading-tight mb-5 text-slate-900 tracking-tight">
                 Замена<br />
                 <span className="text-sky-600">холодного</span><br />
                 остекления<br />
@@ -204,11 +228,11 @@ const Index = () => {
                 </div>
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setHeroSent(true); }} className="space-y-3">
-                  <div className="flex gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <input type="text" placeholder="Имя" value={heroForm.name} onChange={(e) => setHeroForm({ ...heroForm, name: e.target.value })} required
-                      className="flex-1 px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 text-sm bg-white" />
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 text-sm bg-white" />
                     <input type="tel" placeholder="Телефон" value={heroForm.phone} onChange={(e) => setHeroForm({ ...heroForm, phone: e.target.value })} required
-                      className="flex-1 px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 text-sm bg-white" />
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 text-sm bg-white" />
                   </div>
                   <button type="submit" className="w-full py-3.5 bg-sky-600 text-white font-bold rounded-xl hover:bg-sky-700 transition-all shadow-md text-sm">
                     Заказать бесплатный замер → Скидка 35%
@@ -218,7 +242,16 @@ const Index = () => {
               )}
             </div>
           </div>
-          {/* Photo collage */}
+          {/* Mobile hero image */}
+          <div className="lg:hidden relative h-52 sm:h-64 overflow-hidden">
+            <img src={IMGS.livingRoom} alt="Тёплый балкон" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className="absolute bottom-3 left-3 bg-white/95 rounded-xl px-3 py-2 shadow">
+              <div className="text-xs font-bold text-slate-800">После замены</div>
+              <div className="text-xs text-sky-600 font-semibold">Балкон — полноценная комната</div>
+            </div>
+          </div>
+          {/* Photo collage desktop */}
           <div className="hidden lg:grid grid-rows-2 grid-cols-2 gap-2 p-2 bg-slate-100 min-h-[88vh]">
             <div className="relative col-span-2 rounded-2xl overflow-hidden">
               <img src={IMGS.livingRoom} alt="Тёплый балкон" className="w-full h-full object-cover" />
@@ -241,29 +274,29 @@ const Index = () => {
       </section>
 
       {/* PROMO STRIP */}
-      <section id="promo" className="bg-sky-600 py-4 px-4">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+      <section id="promo" className="bg-sky-600 py-3 px-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-4 sm:gap-8 overflow-x-auto no-scrollbar">
           {[
-            { icon: "Percent", text: "Скидка 35% на профиль" },
-            { icon: "Truck", text: "Бесплатная доставка" },
-            { icon: "Ruler", text: "Замер бесплатно" },
-            { icon: "CreditCard", text: "Рассрочка 0% на 12 мес" },
-            { icon: "ShieldCheck", text: "Гарантия 10 лет" },
+            { icon: "Percent", text: "Скидка 35%", mobileHide: false },
+            { icon: "Ruler", text: "Замер бесплатно", mobileHide: false },
+            { icon: "CreditCard", text: "Рассрочка 0%", mobileHide: false },
+            { icon: "Truck", text: "Бесплатная доставка", mobileHide: true },
+            { icon: "ShieldCheck", text: "Гарантия 10 лет", mobileHide: true },
           ].map((item) => (
-            <div key={item.text} className="flex items-center gap-2 text-white">
-              <Icon name={item.icon} size={15} className="text-sky-200" />
-              <span className="text-sm font-semibold">{item.text}</span>
+            <div key={item.text} className={`flex items-center gap-1.5 text-white shrink-0 ${item.mobileHide ? "hidden sm:flex" : "flex"}`}>
+              <Icon name={item.icon} size={14} className="text-sky-200" />
+              <span className="text-xs sm:text-sm font-semibold whitespace-nowrap">{item.text}</span>
             </div>
           ))}
         </div>
       </section>
 
       {/* WHY */}
-      <section id="why" className="py-20 px-4 sm:px-6 bg-slate-50">
+      <section id="why" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
-          <div className={`text-center mb-12 transition-all duration-700 ${vis["why"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <div className={`text-center mb-8 sm:mb-12 transition-all duration-700 ${vis["why"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">Проблема</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-2 mb-3 text-slate-900">Почему холодное остекление — это дорого</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight mt-2 mb-3 text-slate-900">Почему холодное остекление — это дорого</h2>
             <p className="text-slate-500 max-w-xl mx-auto text-sm">Каждую зиму холодный балкон обходится вам дороже, чем кажется</p>
           </div>
           <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -302,11 +335,11 @@ const Index = () => {
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="py-20 px-4 sm:px-6 bg-white">
+      <section id="features" className="py-12 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className={`text-center mb-12 transition-all duration-700 ${vis["features"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">Почему мы</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">6 причин выбрать нас</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">6 причин выбрать нас</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((item, i) => (
@@ -333,11 +366,11 @@ const Index = () => {
       </section>
 
       {/* PROFILES */}
-      <section id="profiles" className="py-20 px-4 sm:px-6 bg-slate-50">
+      <section id="profiles" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className={`text-center mb-12 transition-all duration-700 ${vis["profiles"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">Системы</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-2 mb-3 text-slate-900">Выберите профиль</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight mt-2 mb-3 text-slate-900">Выберите профиль</h2>
             <p className="text-slate-500 max-w-xl mx-auto text-sm">Все профили — оригинальные, с сертификатами производителя.</p>
           </div>
           <div className="flex gap-3 flex-wrap mb-8">
@@ -415,14 +448,14 @@ const Index = () => {
             <div className="grid md:grid-cols-2 gap-7 mb-7">
               <div>
                 <div className="text-sm font-bold text-slate-700 mb-3">Размер балкона</div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="flex flex-col sm:grid sm:grid-cols-3 gap-2">
                   {[
                     { val: "standard", label: "Стандарт", sub: "до 5 м²" },
                     { val: "large", label: "Большой", sub: "5–8 м²" },
                     { val: "loggia", label: "Лоджия", sub: "8–12 м²" },
                   ].map((opt) => (
                     <button key={opt.val} onClick={() => setCalcSize(opt.val)}
-                      className={`p-3 rounded-xl border-2 text-center transition-all ${calcSize === opt.val ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:border-sky-200"}`}>
+                      className={`flex sm:block items-center sm:text-center gap-3 px-4 sm:px-3 py-3 rounded-xl border-2 transition-all ${calcSize === opt.val ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:border-sky-200"}`}>
                       <div className="text-sm font-bold text-slate-800">{opt.label}</div>
                       <div className="text-xs text-slate-400">{opt.sub}</div>
                     </button>
@@ -431,14 +464,14 @@ const Index = () => {
               </div>
               <div>
                 <div className="text-sm font-bold text-slate-700 mb-3">Класс профиля</div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="flex flex-col sm:grid sm:grid-cols-3 gap-2">
                   {[
                     { val: "economy", label: "Эконом", sub: "VEKA" },
                     { val: "comfort", label: "Комфорт", sub: "REHAU" },
                     { val: "premium", label: "Премиум", sub: "Deceuninck" },
                   ].map((opt) => (
                     <button key={opt.val} onClick={() => setCalcProfile(opt.val)}
-                      className={`p-3 rounded-xl border-2 text-center transition-all ${calcProfile === opt.val ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:border-sky-200"}`}>
+                      className={`flex sm:block items-center sm:text-center gap-3 px-4 sm:px-3 py-3 rounded-xl border-2 transition-all ${calcProfile === opt.val ? "border-sky-500 bg-sky-50" : "border-slate-200 hover:border-sky-200"}`}>
                       <div className="text-sm font-bold text-slate-800">{opt.label}</div>
                       <div className="text-xs text-slate-400">{opt.sub}</div>
                     </button>
@@ -461,11 +494,11 @@ const Index = () => {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how" className="py-20 px-4 sm:px-6 bg-white">
+      <section id="how" className="py-12 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className={`text-center mb-12 transition-all duration-700 ${vis["how"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">Процесс</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">4 шага до тёплого балкона</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">4 шага до тёплого балкона</h2>
           </div>
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-4">
@@ -501,11 +534,11 @@ const Index = () => {
       </section>
 
       {/* GALLERY */}
-      <section id="gallery" className="py-20 px-4 sm:px-6 bg-slate-50">
+      <section id="gallery" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className={`text-center mb-12 transition-all duration-700 ${vis["gallery"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">Портфолио</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">Наши работы</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">Наши работы</h2>
           </div>
           <div className="flex gap-3 mb-6 flex-wrap">
             {["Стандартный балкон", "Широкая лоджия", "Угловой балкон"].map((t, i) => (
@@ -534,8 +567,8 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="relative rounded-2xl overflow-hidden h-44 col-span-2 shadow-md">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="relative rounded-2xl overflow-hidden h-44 sm:col-span-2 shadow-md">
               <img src={IMGS.panoramic} alt="Панорамное остекление" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
               <div className="absolute inset-0 flex items-end p-4">
@@ -557,7 +590,7 @@ const Index = () => {
       </section>
 
       {/* TRUST */}
-      <section id="trust" className="py-16 px-4 sm:px-6 bg-white border-y border-slate-100">
+      <section id="trust" className="py-10 sm:py-16 px-4 sm:px-6 bg-white border-y border-slate-100">
         <div className="max-w-7xl mx-auto">
           <div className={`text-center mb-10 transition-all duration-700 ${vis["trust"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">Надёжность</span>
@@ -585,11 +618,11 @@ const Index = () => {
       </section>
 
       {/* REVIEWS */}
-      <section id="reviews" className="py-20 px-4 sm:px-6 bg-slate-50">
+      <section id="reviews" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className={`text-center mb-12 transition-all duration-700 ${vis["reviews"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">Отзывы</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">Что говорят клиенты</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">Что говорят клиенты</h2>
             <div className="flex items-center justify-center gap-2 mt-3">
               <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Icon key={i} name="Star" size={16} className="text-amber-400" />)}</div>
               <span className="text-slate-500 text-sm font-medium">4.9 из 5 · Яндекс.Карты · 200+ отзывов</span>
@@ -614,11 +647,11 @@ const Index = () => {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-20 px-4 sm:px-6 bg-white">
+      <section id="faq" className="py-12 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-3xl mx-auto">
           <div className={`text-center mb-12 transition-all duration-700 ${vis["faq"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">FAQ</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">Частые вопросы</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight mt-2 text-slate-900">Частые вопросы</h2>
           </div>
           <div className="space-y-3">
             {faqs.map((item, i) => (
@@ -635,7 +668,7 @@ const Index = () => {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-20 px-4 sm:px-6 bg-slate-50">
+      <section id="contact" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 p-5 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl shadow-xl flex flex-col sm:flex-row items-center gap-5 text-white">
             <div className="flex items-center gap-3 shrink-0">
@@ -654,7 +687,7 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className={`transition-all duration-700 ${vis["contact"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
               <span className="text-xs font-bold tracking-widest text-sky-600 uppercase">Контакты</span>
-              <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mt-2 mb-5 text-slate-900">Закажите бесплатный замер</h2>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight mt-2 mb-5 text-slate-900">Закажите бесплатный замер</h2>
               <p className="text-slate-500 mb-8 leading-relaxed text-sm">Замерщик приедет в удобное время. Рассчитает стоимость на месте. Никаких обязательств.</p>
               <div className="space-y-4 mb-8">
                 {[
