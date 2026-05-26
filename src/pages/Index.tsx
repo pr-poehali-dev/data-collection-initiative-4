@@ -201,7 +201,14 @@ const Index = () => {
 
       {/* Hero Section */}
       <section id="hero" className="relative pt-28 pb-20 px-4 sm:px-6 min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent" />
+        <div className="absolute inset-0">
+          <img
+            src="https://cdn.poehali.dev/projects/1d4972ac-1dfe-4bfc-9e7b-ebb9b43ea419/files/2f162422-2b86-4f16-aabd-6b9e67041a24.jpg"
+            alt="Тёплый балкон после замены остекления"
+            className="w-full h-full object-cover opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/40" />
+        </div>
         <div className="absolute top-1/4 right-0 w-96 h-96 bg-accent/15 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
 
@@ -408,23 +415,39 @@ const Index = () => {
               </span>
             </h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((step, i) => (
-              <div
-                key={i}
-                className={`relative p-7 rounded-2xl border border-accent/10 bg-card/50 transition-all duration-700 ${visibleSections["how"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-                style={{ transitionDelay: `${i * 100}ms` }}
-              >
-                <div className="text-5xl font-black text-accent/20 mb-4 font-display">{step.num}</div>
-                <h3 className="font-bold text-white text-lg mb-2">{step.title}</h3>
-                <p className="text-sm text-white/60 leading-relaxed">{step.desc}</p>
-                {i < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-6 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center z-10">
-                    <Icon name="ChevronRight" size={12} className="text-accent" />
+          <div className="grid lg:grid-cols-2 gap-10 items-center mb-10">
+            <div className={`grid sm:grid-cols-2 gap-5 transition-all duration-1000 ${visibleSections["how"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              {steps.map((step, i) => (
+                <div
+                  key={i}
+                  className={`relative p-6 rounded-2xl border border-accent/10 bg-card/50 transition-all duration-700`}
+                  style={{ transitionDelay: `${i * 100}ms` }}
+                >
+                  <div className="text-4xl font-black text-accent/20 mb-3 font-display">{step.num}</div>
+                  <h3 className="font-bold text-white text-base mb-2">{step.title}</h3>
+                  <p className="text-sm text-white/60 leading-relaxed">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className={`relative rounded-3xl overflow-hidden transition-all duration-1000 delay-300 ${visibleSections["how"] ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
+              <img
+                src="https://cdn.poehali.dev/projects/1d4972ac-1dfe-4bfc-9e7b-ebb9b43ea419/files/cbac7e97-8b63-4e5c-abeb-ee595bbe3b25.jpg"
+                alt="Профессиональный монтаж тёплого остекления"
+                className="w-full h-80 object-cover rounded-3xl"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-3xl" />
+              <div className="absolute bottom-5 left-5 right-5">
+                <div className="flex items-center gap-3 bg-black/60 backdrop-blur-sm rounded-2xl px-4 py-3">
+                  <div className="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center shrink-0">
+                    <Icon name="HardHat" size={16} className="text-accent" />
                   </div>
-                )}
+                  <div>
+                    <div className="text-sm font-bold text-white">Опытные мастера</div>
+                    <div className="text-xs text-white/60">Монтаж без пыли и грязи</div>
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -456,39 +479,65 @@ const Index = () => {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="relative rounded-2xl overflow-hidden border border-red-500/30 bg-red-500/5 p-8 min-h-48 flex flex-col justify-end">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="relative rounded-2xl overflow-hidden border border-red-500/30 min-h-72 flex flex-col justify-end">
+                <img
+                  src="https://cdn.poehali.dev/projects/1d4972ac-1dfe-4bfc-9e7b-ebb9b43ea419/files/d169b98d-636c-46d7-a8c1-c3b116946700.jpg"
+                  alt="Холодное остекление до замены"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 rounded-full bg-red-500/80 text-white text-xs font-bold">ДО</span>
+                  <span className="px-3 py-1 rounded-full bg-red-500/90 text-white text-xs font-bold">ДО</span>
                 </div>
-                <div className="relative z-10">
+                <div className="relative z-10 p-6">
                   <div className="flex items-center gap-2 mb-2">
                     <Icon name="X" size={16} className="text-red-400" />
                     <span className="text-red-300 text-sm font-medium">{beforeAfterTabs[activeTab].before}</span>
                   </div>
                   <div className="flex gap-2 flex-wrap">
                     {["Холод", "Сквозняки", "Шум", "Конденсат"].map((tag) => (
-                      <span key={tag} className="px-2 py-1 rounded-lg bg-red-500/20 text-red-300 text-xs">{tag}</span>
+                      <span key={tag} className="px-2 py-1 rounded-lg bg-red-500/30 text-red-200 text-xs">{tag}</span>
                     ))}
                   </div>
                 </div>
               </div>
 
-              <div className="relative rounded-2xl overflow-hidden border border-accent/30 bg-accent/5 p-8 min-h-48 flex flex-col justify-end">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="relative rounded-2xl overflow-hidden border border-accent/30 min-h-72 flex flex-col justify-end">
+                <img
+                  src="https://cdn.poehali.dev/projects/1d4972ac-1dfe-4bfc-9e7b-ebb9b43ea419/files/328e09ff-138a-4f8c-a78f-4aebbeddf6a3.jpg"
+                  alt="Тёплое остекление после замены"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 rounded-full bg-accent text-black text-xs font-bold">ПОСЛЕ</span>
                 </div>
-                <div className="relative z-10">
+                <div className="relative z-10 p-6">
                   <div className="flex items-center gap-2 mb-2">
                     <Icon name="Check" size={16} className="text-accent" />
                     <span className="text-accent text-sm font-medium">{beforeAfterTabs[activeTab].after}</span>
                   </div>
                   <div className="flex gap-2 flex-wrap">
                     {["Тепло", "Тишина", "Комфорт", "Экономия"].map((tag) => (
-                      <span key={tag} className="px-2 py-1 rounded-lg bg-accent/20 text-accent text-xs">{tag}</span>
+                      <span key={tag} className="px-2 py-1 rounded-lg bg-accent/30 text-accent text-xs">{tag}</span>
                     ))}
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Extra photo row */}
+            <div className={`mt-6 rounded-3xl overflow-hidden relative transition-all duration-1000 delay-400 ${visibleSections["gallery"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <img
+                src="https://cdn.poehali.dev/projects/1d4972ac-1dfe-4bfc-9e7b-ebb9b43ea419/files/1c0b72f9-25a7-4542-8c17-03fa4e50ce2e.jpg"
+                alt="Панорамное остекление лоджии в Санкт-Петербурге"
+                className="w-full h-56 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 flex items-center px-8">
+                <div>
+                  <div className="text-2xl font-black text-white mb-2">Панорамное остекление</div>
+                  <p className="text-white/70 text-sm max-w-xs">Широкие лоджии — наш конёк. Максимум света и вида при полной герметичности.</p>
                 </div>
               </div>
             </div>
